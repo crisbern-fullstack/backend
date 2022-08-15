@@ -5,7 +5,7 @@ const mongoose = require("mongoose"); //mongoose import
 const DataQueryRoute = require("./routes/DataQueryRoute"); //Routes for querying employees and companies
 const AuthenticationRoute = require("./routes/AuthenticationRoute"); //Routes for Authentication
 const EmailRoute = require("./routes/EmailRoute");
-// const initializePassport = require("./passport-config")
+const cors = require("cors");
 
 const app = express();
 
@@ -18,6 +18,7 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
+app.use(cors);
 
 //routes
 
