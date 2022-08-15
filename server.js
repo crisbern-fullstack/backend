@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
-app.use(cors);
+app.use(cors());
 
 //routes
 
