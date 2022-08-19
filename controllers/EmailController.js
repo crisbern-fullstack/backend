@@ -96,6 +96,7 @@ const SendScheduledEmail = async (req, res) => {
   };
 
   const scheduled_email = await EmailModel.create(email_args);
+  //res.write(JSON.stringify({ message: "Email successfully scheduled" }));
   res.status(200).json({ message: "Email successfully scheduled" });
 
   jobs[scheduled_email._id] = schedule.scheduleJob(req.body.date, async () => {

@@ -6,9 +6,8 @@ const router = express.Router();
 const {
   AddEmployee,
   Login,
+  IsAdmin,
 } = require("../controllers/AuthenticationController");
-
-const { IsAdmin } = require("../middlewares/authentication");
 
 //Add new user/employee
 router.post("/signup", IsAdmin, AddEmployee);

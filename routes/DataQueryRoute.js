@@ -1,9 +1,11 @@
 const express = require("express");
-const { fileUpload } = require("../middlewares/file-upload");
+const { uploadMiddleware } = require("./multer-initialization");
 
 //controllers
 const {
   GetAllCompanies,
+  GetPaginatedCompanies,
+  GetCompaniesCount,
   AddCompany,
   GetOneCompany,
   DeleteCompany,
@@ -18,7 +20,7 @@ const {
 const {
   CheckAuthentication,
   IsAdmin,
-} = require("../middlewares/authentication");
+} = require("../controllers/AuthenticationController");
 
 //import the express router
 const router = express.Router();
@@ -27,19 +29,23 @@ const router = express.Router();
 router.use(CheckAuthentication);
 
 //Get All Companies
-router.get("/companies", GetAllCompanies);
+router.get("/all-companies", GetAllCompanies);
+
+//Get Companies but Paginated
+
+router.get("/companies-count", GetCompaniesCount);
 
 //Get one company
 router.get("/company/:id", GetOneCompany);
 
 //Add New Company (admin only)
-router.post("/company", IsAdmin, fileUpload, AddCompany);
+router.post("/new-company", IsAdmin, uploadMiddleware, AddCompany);
 
 //Delete a company (admin only)
-router.delete("/company/:id", IsAdmin, DeleteCompany);
+router.delete("/delete-company/:id", IsAdmin, DeleteCompany);
 
 //Update a company (admin only)
-router.patch("/company/:id", IsAdmin, fileUpload, UpdateCompany);
+router.patch("/update-company/:id", IsAdmin, uploadMiddleware, UpdateCompany);
 
 //Employees
 //Get All Employees
@@ -54,7 +60,6 @@ router.delete("/delete-employee/:id", IsAdmin, DeleteEmployee);
 //Update employee
 router.patch("/update-employee/:id", IsAdmin, UpdateEmployee);
 
-//gets data such as number of users and employees
 router.get("/meta", GetMeta);
 
 //exporting created routes

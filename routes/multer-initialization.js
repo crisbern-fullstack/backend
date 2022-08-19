@@ -1,7 +1,25 @@
 const multer = require("multer");
 const path = require("path");
 
-const fileUpload = (req, res, next) => {
+//Multer Initialization
+//Multer File Filter
+const fileFilter = async (req, file, callback) => {
+  const mime_type = file.mimetype;
+
+  if (mime_type === "image/jpeg" || mime_type === "image/png") {
+    return callback(null, true);
+  } else {
+    return callback(
+      new Error(
+        "Invalid file format. Please upload an image with .jpeg or .png extension"
+      )
+    );
+  }
+};
+
+//needs fixing
+//study express error handler
+const uploadMiddleware = (req, res, next) => {
   //multer storage
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -16,21 +34,6 @@ const fileUpload = (req, res, next) => {
       cb(null, file_name);
     },
   });
-
-  //Multer File Filter
-  const fileFilter = async (req, file, callback) => {
-    const mime_type = file.mimetype;
-
-    if (mime_type === "image/jpeg" || mime_type === "image/png") {
-      return callback(null, true);
-    } else {
-      return callback(
-        new Error(
-          "Invalid file format. Please upload an image with .jpeg or .png extension"
-        )
-      );
-    }
-  };
 
   //initialize multer
   const upload = multer({
@@ -56,4 +59,4 @@ const fileUpload = (req, res, next) => {
   });
 };
 
-module.exports = { fileUpload };
+module.exports = { uploadMiddleware };

@@ -3,7 +3,10 @@ const express = require("express");
 const router = express.Router();
 
 //for authentications
-const { CheckAuthentication } = require("../middlewares/authentication");
+const {
+  CheckAuthentication,
+  IsAdmin,
+} = require("../controllers/AuthenticationController");
 
 const {
   AllEmails,
